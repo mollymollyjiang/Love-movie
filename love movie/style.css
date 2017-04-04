@@ -1,0 +1,94 @@
+
+
+.axisX .tick line{
+	stroke:#F8F4EF;
+    stroke-width:.1px;
+
+}
+
+.axisX .tick text{
+	stroke:darkgrey;
+    stroke-width:.5px;
+    font-size:2px;
+
+}
+.axisYSad .tick text{
+	stroke:darkgrey;
+    stroke-width:.1px;
+   
+
+}
+.axisYJoy .tick text{
+    stroke:darkgrey;
+    stroke-width:.1px;
+   
+
+}
+
+.axisYSad .tick line{
+    stroke:grey;
+    stroke-width:.1px;
+   
+
+}
+.axisYJoy .tick line{
+    stroke:grey;
+    stroke-width:.1px;
+   
+
+}
+
+
+.btn-group{
+	margin-left:450px; 
+    margin-top:-50px;
+}
+
+.legend{
+	margin-left:700px;
+	margin-top:-110px;
+}
+
+.domain{
+	stroke:#F8F4EF;
+    stroke-width:.0px;
+
+}
+
+
+}
+
+.Node1{
+    stroke:black;
+    stroke-width:0px;
+}
+
+.Node2{
+    stroke:#C55D4F;
+    stroke-width:0px;
+}
+.Node3{
+    stroke:black;
+    stroke-width:0px;
+}
+
+
+.container{
+	margin: 20px;
+}
+
+.highlight circle{
+    stroke:blue;
+    stroke-width:2px;
+}
+
+.title {
+    font-size: 16px;         
+        
+    text-anchor: start;
+  }
+
+
+
+
+
