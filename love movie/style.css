@@ -83,9 +83,8 @@
 }
 
 .title {
-    font-size: 16px;         
-        
-    text-anchor: start;
+    font-size: 12px; 
+    text-anchor: end;
   }
 
 

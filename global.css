@@ -25,12 +25,8 @@ body{
     /*visibility:hidden;*/
     opacity:0;
 }
-    .custom-tooltip .price{
-        font-size:1.2em;
-        font-weight:bold;
-        color: #F8F4EF;
-}    
-    .custom-tooltip .location{
+   
+    .custom-tooltip .text{
         font-size:0.9em;
         font-weight:solid;
         color: #F8F4EF;
