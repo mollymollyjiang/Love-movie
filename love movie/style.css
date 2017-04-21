@@ -1,38 +1,38 @@
 
 
 .axisX .tick line{
-	stroke:#F8F4EF;
+	stroke:#F1EAEA;
     stroke-width:.1px;
 
 }
 
 .axisX .tick text{
-	stroke:darkgrey;
+	stroke:#F1EAEA;
     stroke-width:.5px;
     font-size:2px;
 
 }
 .axisYSad .tick text{
-	stroke:darkgrey;
+	stroke:#F1EAEA;
     stroke-width:.1px;
    
 
 }
 .axisYJoy .tick text{
-    stroke:darkgrey;
+    stroke:#F1EAEA;
     stroke-width:.1px;
    
 
 }
 
 .axisYSad .tick line{
-    stroke:grey;
+    stroke:#F1EAEA;
     stroke-width:.1px;
    
 
 }
 .axisYJoy .tick line{
-    stroke:grey;
+    stroke:#F1EAEA;
     stroke-width:.1px;
    
 

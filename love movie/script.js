@@ -139,7 +139,9 @@ draw1(Movies);
    function draw1(rows){
         
        
-      //d3.selectAll('.biggroup2').remove();
+      d3.selectAll('.biggroup2').remove();
+      d3.selectAll('.circle').remove();
+
       //d3.select("#container2").remove();
       d3.selectAll('.movieContainer').remove();
       // d3.select('img').remove();
@@ -149,7 +151,7 @@ draw1(Movies);
    
 
     var biggroup=updatedata.enter().append('g').attr('class','biggroup')
-          .attr('transform',function(d,i){return 'translate(-10'+','+((i-1)*h/5.7)+')'})
+          .attr('transform',function(d,i){return 'translate(-10'+','+((i-0.3)*h/5.9)+')'})
         //    .attr('transform','translate(10'+','+(i*h/5)+')')
 
      
@@ -167,7 +169,7 @@ draw1(Movies);
             .attr('dy','1em')
             .attr("font-size",12)         
            // .attr("y", h-10)
-            .style("fill", "#585F5D")
+            .style("fill", "#F1EAEA")
             .style("stroke-width",".1px")
             .on('mouseenter',function(d){
         d3.select(this)
@@ -178,7 +180,7 @@ draw1(Movies);
            .on('mouseleave',function(d){ 
              
               d3.select(this)
-              .style('fill','#585F5D');
+              .style('fill','#F1EAEA');
           });
 
              
@@ -195,7 +197,7 @@ draw1(Movies);
            smallgrouptop.append('g')
             .attr('class','axis axis-y joy')
             .attr('transform','translate(120,0)')
-            .style("stroke","lightgrey")
+            .style("stroke","#F1EAEA")
             .style("stroke-dasharray", ("3, 3"))
             .style("stroke-width",".1px")
             .call(axisYJoy); 
@@ -207,7 +209,7 @@ draw1(Movies);
            smallgroupbottom.append('g')
             .attr('class','axis axis-y sad')
             .attr('transform','translate(120,0)')
-            .style("stroke","lightgrey")
+            .style("stroke","#F1EAEA")
             .style("stroke-dasharray", ("3, 3"))
             .style("stroke-width",".1px")
             .call(axisYSad);
@@ -222,7 +224,7 @@ draw1(Movies);
             .attr("x",function(d){return scaleX(d.number)})
             .attr("y",function(d){return scaleYJoy(d.joy)})
             .style("width",1.5)
-            .style('fill','#E28D6C')
+            .style('fill','#DC8989')
             .style("height",function(d){return h/18 -scaleYJoy(d.joy)})
 
     // var circleJoy = smallgrouptop.selectAll("circle")
@@ -248,7 +250,7 @@ draw1(Movies);
             .attr("y",h/18)
             //.attr("y",function(d){return scaleYSad(d.sadness)})
             .style("width",1.5)
-            .style('fill','#4E728B')
+            .style('fill','#7995C3')
 
             .style("height",function(d){return scaleYSad(d.sadness)-h/18})
 
@@ -345,201 +347,290 @@ draw1(Movies);
 function draw2(rows){
 
     d3.selectAll('.biggroup').remove();
-    //d3.select('img').remove();
-    // d3.select(".emoall")
-    //     // .append('object')
-    //     // .attr('type','image/svg+xml')
-    //     // .attr("data", "image/Love movie.svg");
-    
-    // setTimeout(function() {
-    //     var textElements = d3.select(".emoall")
-    //         .select("svg")
-    //         .selectAll(".movie-svg-text");
-    //     // console.log(emoall);
-    //     textElements.on("click", function() {
-    //         console.log(this.getAttribute("id"));
-    //     });
-    //     // console.log(document.querySelectorAll(".movie-svg-text"));
-    // }, 2000);
 
 
-    // var movies = ["Casablanca", "Roman Holiday", "West Side,Story", "Annie Hall", "When Harry,Met Sally", "Sleepless In ,Seattle", "Eternal Sunshine,of the ,Spotless Mind", "Her"];
-    //    console.log(rows);
-    //     var Emodata = rows.map(function(e, i){
-    //     var d = e.data;
-        
-    // // //    //  return {
-    // // //    //      movieName: movies[i],
-    // // //    //      anger: d3.mean(d, function(d){ return d.anger; }),
-    // // //    //      disgust: d3.mean(d, function(d){ return d.disgust; }),
-    // // //    //      fear: d3.mean(d, function(d){ return d.fear; }),
-    // // //    //      joy: d3.mean(d, function(d){ return d.joy; }),
-    // // //    //      sadness: d3.mean(d, function(d){ return d.sadness; }),
-    // // //    //      text: d.text
-    // // //    //     };
-    // // //    // });
+// filter the data
 
-    //     return {
-    //         movieName: movies[i],
-    //         anger: d3.sum(d, function(d){ return d.anger; }),
-    //         disgust: d3.sum(d, function(d){ return d.disgust; }),
-    //         fear: d3.sum(d, function(d){ return d.fear; }),
-    //         joy: d3.sum(d, function(d){ return d.joy; }),
-    //         sadness: d3.sum(d, function(d){ return d.sadness; }),
-    //         text: d.text
-    //        };
-    //    });
-    //    console.log( Emodata);
+    var flatData = rows.map(function(d) {
+        return d.data.map(function(e){
+            e.name = d.name;
+            return e;
+        });
+    });
+    flatData = flatData.reduce(function(prev, curr){ return prev.concat(curr); }, []);
 
 
-    // var updatedata2 = plot.selectAll('.biggroup2').data(Emodata);
-       
- 
-    // var updatedata = plot.selectAll('.biggroup').data(Movies);
-   
-    // var Emogroup=updatedata.enter().append('g').attr('class','biggroup2')
-    //      .attr('transform',function(d,i){return 'translate(-10'+','+((i+0.5)*h/5)+')'})
-           
+    var cf = crossfilter(flatData);
+    var movieNameDimension = cf.dimension(function(d){ return d.name; });
+    var angerDimension = cf.dimension(function(d){ return d.anger; });
+    var fearDimension = cf.dimension(function(d){ return d.fear; });
+    var joyDimension = cf.dimension(function(d){ return d.joy; });
+    var sadnessDimension = cf.dimension(function(d){ return d.sadness; });
 
-    //     Emogroup
-    //         .append('text')
-    //         .selectAll('tspan')
-    //         .data(function(d){return d.name.split(',')})
-    //         .enter()
-    //         .append('tspan').attr('class','title')                
-    //         .text(function(d){return d})
-    //         .attr("x", 90)
-    //         .attr('dy','1em')
-    //         .attr("font-size",16)         
-    //        // .attr("y", h-10)
-    //         .style("fill",  "#585F5D")
+    // console.log("rows", rows);
+    console.log("flatData", flatData);
+    var moviesSet = d3.set(flatData.map(function(d) { return d.name; }));
 
-      var colors = {
-    anger: '#B6574B',
-    fear: '#7F9B73',
-    joy: '#D69853',
-    sadness: '#2A678E',
-    disgust:'#8A8D8E'
-     };
+    var movies = moviesSet.values();
+    console.log
+       console.log(rows);
+        var Emodata = rows.map(function(e, i){
+        var d = e.data;
 
-  var movies = [
-    { 
-      anger: 0.206,
-      fear: 0.253,
-      joy: 0.503,
-      sadness: 0.552,
-      disgust:0.179,
-      name: 'Casablanca'
-    },
-    {
-      anger: 0.151,
-      fear: 0.184,
-      joy: 0.234,
-      sadness: 0.299,
-      disgust:0.133,
-      name: 'Roman holiday'
-    },
-    {
-      anger: 0.288,
-      fear: 0.318,
-      joy: 0.362,
-      sadness: 0.497,
-      disgust:0.264,
-      name: 'West side story',
-      text: "We love the sea and I love you !"
-    },
-    {
-      anger: 0.247,
-      fear: 0.282,
-      joy: 0.302,
-      sadness: 0.477,
-      disgust:0.243,
-      name: 'Annie Hall'
-    },
-    {
-      anger: 0.188,
-      fear: 0.214,
-      joy: 0.447,
-      sadness: 0.566,
-      disgust:0.171,
-      name: 'When Harry met Sally'
-    },
-     {
-      anger: 0.171,
-      fear: 0.209,
-      joy: 0.437,
-      sadness: 0.486,
-      disgust:0.150,
-      name: 'Sleepless In ,Seattle'
-    },
-    {
-      anger: 0.238,
-      fear: 0.302,
-      joy: 0.275,
-      sadness: 0.459,
-      disgust:0.191,
-      name: 'Eternal Sunshine,of the ,Spotless Mind'
-    },
-    {
-      anger: 0.219,
-      fear: 0.263,
-      joy: 0.537,
-      sadness: 0.665,
-      disgust:0.131,
-      name: 'Her'
-    }
-  ];
-  console.log(movies)
-   
-   var drawMovie = function(movie, size) {
-    size = size || 150;
-    var keys = ['anger','fear','joy','sadness',"disgust"]
+        return {
+            movieName: movies[i],
+            anger: d3.sum(d, function(d){ return d.anger; }),
+            disgust: d3.sum(d, function(d){ return d.disgust; }),
+            fear: d3.sum(d, function(d){ return d.fear; }),
+            joy: d3.sum(d, function(d){ return d.joy; }),
+            sadness: d3.sum(d, function(d){ return d.sadness; }),
+            text: d.text
+           };
+       });
+       console.log( Emodata);
 
-    var values = keys.map(function(key) {
-      var val = movie[key];
-      var r   = val * size/3;
-      return {
-        label: key,
-        value: val,
-        r: r,
-        color: colors[key]
-      };
+    var vizData = Emodata.map(function(d) {
+        var movieEmotions = [];
+        movieEmotions.push({
+            name: d.movieName,
+            emotion: "anger",
+            score: d.anger
+        });
+        movieEmotions.push({
+            name: d.movieName,
+            emotion: "sadness",
+            score: d.sadness
+        });
+        movieEmotions.push({
+            name: d.movieName,
+            emotion: "joy",
+            score: d.joy
+        });
+        movieEmotions.push({
+            name: d.movieName,
+            emotion: "fear",
+            score: d.fear
+        });
+        return movieEmotions;
     });
 
-    var container = d3.select("#container2")
-      .append('div')
-      .attr('class','movieContainer');
-    var title = container
-      .append('div')
-      .attr('class','title')
-      .text(movie.name)
+// setting position for each movie
+    var movieLocation = {};
+    Emodata.forEach(function(d, i){ 
+            var x = 0, y = 0;
+            if (i < 4) {
+                x = w/4;
+            } else {
+                x = 3*w/4;
+            }
 
-    var svg = container
-      .append('svg')
-      .attr('width', size)
-      .attr('height', size)
+            if (i < 4) {
+                y = i*(h/3);
+            } else {
+                y = (i-4)*(h/3);
+            }
 
-    d3.packSiblings(values);
+            return movieLocation[d.movieName] = { x: x, y: y };
+        });
+
+    vizData = vizData.reduce(function(prev, curr){ return prev.concat(curr); }, []);
+    console.log("vizData", vizData);
+
+    var g = plot.append("g")
+        .attr("class", "force");
+
+    var texts = g.selectAll("text")
+        .data(Object.keys(movieLocation));
+
+    texts.exit().remove();
+    texts.enter()
+        .append("text")
+        .merge(texts)
+        .attr("x", function(d){ return movieLocation[d].x-100; })
+        .attr("y", function(d){ return movieLocation[d].y; })
+        .text(function(d){ return d; });
+
+    var circles = g.selectAll("circle")
+        .data(vizData);
+
+    var scaleR = d3.scaleLinear().domain([0, 1000]).range([0, 50]);
+    var colors = {
+        anger: '#B6574B',
+        fear: '#7F9B73',
+        joy: '#D69853',
+        sadness: '#2A678E',
+        disgust:'#8A8D8E',
+        sw: '#2A678E'
+    };
+    var scaleColor = d3.scaleOrdinal().domain(Object.keys(colors)).range(Object.values(colors));
+
+    circles.exit().remove();
+    circles.enter()
+        .append("circle")
+        .merge(circles)
+        .classed("emotionNode", true)
+        .attr("fill", function(d){ return scaleColor(d.emotion); })
+        .attr("r", function(d){ return scaleR(d.score); })
+        .on("mouseover", function(d){
+            console.log(d);
+            movieNameDimension.filter(d.name);
+            var sentences = [];
+            if (d.emotion == "sadness") {
+                sentences = sadnessDimension.top(5);
+            } else if (d.emotion == "joy") {
+                sentences = joyDimension.top(5);
+            } else if (d.emotion == "fear") {
+                sentences = fearDimension.top(5);
+            } else if (d.emotion == "anger") {
+                sentences = angerDimension.top(5);
+            }
+            sentences = sentences.map(function(e){ return e.text; });
+            console.log(sentences);
+        });
+
+    var collide=d3.forceCollide().radius(function(d){return scaleR(d.score+5)}),
+        forceY=d3.forceY().y(function(d){
+            return movieLocation[d.name].y;
+        }),
+        forceX=d3.forceX().x(function(d){
+            return movieLocation[d.name].x;
+        });
+    var simulation = d3.forceSimulation()
+        .force('positionX',forceX)
+        .force('positionY',forceY)
+        .force('collide',collide)
+        // .force('center',forceCenter)
+        .on('tick',function(){
+            plot.selectAll('.emotionNode')
+            .attr('transform',function(d){return 'translate('+d.x+','+d.y+')'})
+        })
+        .nodes(vizData);
 
 
-    var circle = svg.selectAll('circle')
-      .data(values)
-      .enter()
-      .append('circle')
-      .attr('r', function (d) { return d.r })
-      .attr('cx', function (d) { return d.x + size/2; })
-      .attr('cy', function (d) { return d.y + size/2; })
-      .attr('fill', function (d) { return d.color; });
-
-    // var lines = container .append('text')
-    //     .text(movie.text)
 
 
-  };
+      
 
-  for(var i = 0; i < movies.length; i++) {
-    drawMovie(movies[i]);
-  }
+  // var movies = [
+  //   { 
+  //     anger: 0.206,
+  //     fear: 0.253,
+  //     joy: 0.503,
+  //     sadness: 0.552,
+  //     disgust:0.179,
+  //     name: 'Casablanca',
+  //     sw:"I was lonely. I had nothing,not even hope."
+  //   },
+  //   {
+  //     anger: 0.151,
+  //     fear: 0.184,
+  //     joy: 0.234,
+  //     sadness: 0.299,
+  //     disgust:0.133,
+  //     name: 'Roman holiday'
+  //   },
+  //   {
+  //     anger: 0.288,
+  //     fear: 0.318,
+  //     joy: 0.362,
+  //     sadness: 0.497,
+  //     disgust:0.264,
+  //     name: 'West side story',
+  //     text: "We love the sea and I love you !"
+  //   },
+  //   {
+  //     anger: 0.247,
+  //     fear: 0.282,
+  //     joy: 0.302,
+  //     sadness: 0.477,
+  //     disgust:0.243,
+  //     name: 'Annie Hall'
+  //   },
+  //   {
+  //     anger: 0.188,
+  //     fear: 0.214,
+  //     joy: 0.447,
+  //     sadness: 0.566,
+  //     disgust:0.171,
+  //     name: 'When Harry met Sally'
+  //   },
+  //    {
+  //     anger: 0.171,
+  //     fear: 0.209,
+  //     joy: 0.437,
+  //     sadness: 0.486,
+  //     disgust:0.150,
+  //     name: 'Sleepless In ,Seattle'
+  //   },
+  //   {
+  //     anger: 0.238,
+  //     fear: 0.302,
+  //     joy: 0.275,
+  //     sadness: 0.459,
+  //     disgust:0.191,
+  //     name: 'Eternal Sunshine,of the ,Spotless Mind'
+  //   },
+  //   {
+  //     anger: 0.219,
+  //     fear: 0.263,
+  //     joy: 0.537,
+  //     sadness: 0.665,
+  //     disgust:0.131,
+  //     name: 'Her'
+  //   }
+  // ];
+  // console.log(movies)
+   
+  //  var drawMovie = function(movie, size) {
+  //   size = size || 150;
+  //   var keys = ['anger','fear','joy','sadness',"disgust"]
+
+  //   var values = keys.map(function(key) {
+  //     var val = movie[key];
+  //     var r   = val * size/3;
+  //     return {
+  //       label: key,
+  //       value: val,
+  //       r: r,
+  //       color: colors[key]
+  //     };
+  //   });
+
+  //   var container = d3.select("#container2")
+  //     .append('div')
+  //     .attr('class','movieContainer');
+  //   var title = container
+  //     .append('div')
+  //     .attr('class','title')
+  //     .text(movie.name)
+
+  //   var svg = container
+  //     .append('svg')
+  //     .attr('width', size)
+  //     .attr('height', size)
+
+  //   d3.packSiblings(values);
+
+
+  //   var circle = svg.selectAll('circle')
+  //     .data(values)
+  //     .enter()
+  //     .append('circle')
+  //     .attr('r', function (d) { return d.r })
+  //     .attr('cx', function (d) { return d.x + size/2; })
+  //     .attr('cy', function (d) { return d.y + size/2; })
+  //     .attr('fill', function (d) { return d.color; });
+
+  //    var lines = container .append('sw')
+  //       .text(movie.sw)
+        
+
+
+  // };
+
+  // for(var i = 0; i < movies.length; i++) {
+  //   drawMovie(movies[i]);
+  // }
 
 
 
