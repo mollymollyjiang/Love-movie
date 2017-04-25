@@ -159,7 +159,7 @@ draw1(Movies);
    
 
     var biggroup=updatedata.enter().append('g').attr('class','biggroup')
-          .attr('transform',function(d,i){return 'translate(20'+','+((i-1.35)*h/6.3)+')'})
+          .attr('transform',function(d,i){return 'translate(20'+','+((i-1.35)*h/6.4)+')'})
         //    .attr('transform','translate(10'+','+(i*h/5)+')')
 
      
@@ -204,7 +204,7 @@ draw1(Movies);
            
            smallgrouptop.append('g')
             .attr('class','axisYJoy')
-            .attr('transform','translate(110,0)')
+            .attr('transform','translate(115,0)')
             .style("stroke","#F1EAEA")
             //.style("stroke-dasharray", ("2, 2"))
             //.style("stroke-width",".1px")
@@ -215,7 +215,7 @@ draw1(Movies);
            
            smallgroupbottom.append('g')
             .attr('class','axisYSad')
-            .attr('transform','translate(110,0)')
+            .attr('transform','translate(115,0)')
             .style("stroke","#F1EAEA")
            // .style("stroke-dasharray", ("2, 2"))
             //.style("stroke-width",".1px")
@@ -571,7 +571,7 @@ function draw2(rows){
             console.log(sentences);
             var top='';
             sentences.forEach(function(d){
-                top = top+'<p>'+'"'+d+'"'+'</p>';
+                top = top+'<p>'+' " '+d+' " '+'</p>';
                 // console.log(d)
                 // console.log(top)
             })
