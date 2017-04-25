@@ -6,6 +6,7 @@ body{
     .canvas{
     width:100%;
     min-height:600px;
+   
 }
 
 /* tooltip */
@@ -27,9 +28,16 @@ body{
 }
    
     .custom-tooltip .text{
+        font-size:0.95em;
+        font-weight:solid;
+        color: #F1EAEA;
+
+
+    }
+    .custom-tooltip .sentences{
         font-size:0.9em;
         font-weight:solid;
-        color: #F8F4EF;
+        color: #F1EAEA;
 
 
     }

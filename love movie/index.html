@@ -9,24 +9,31 @@
 <body>
 <div class="container">
 
-    <h2> What we talk about when we talk about love movie </h2>
+    <h1> Sentiment of Romance Movies</h1>
 
     <div class="btn-group">
-        <div class="btn-primary btn" style="background-color: #585F5D; border-color: #F8F4EF; opacity:0.5; margin-left:250px; margin-top:-25px;display: inline-block; border-style: solid; border-width: 1px" id="Movie-tides">Movie tides</div>
-        <div class="btn-primary btn" style="background-color: #585F5D; border-color: #F8F4EF; opacity:0.5;margin-left:0px; margin-top:-25px; display: inline-block; border-style: solid; border-width: 1px" id="Movie-emotions">Movie emotions</div>
+        <div class="btn-primary btn" id="Movie-tides">Mood tides</div>
+        <div class="btn-primary btn" style="margin-left:-293px; margin-top:50px; display: inline-block;background-color: #222D33;border: #222D33;">|</div>
+        <div class="btn-primary btn" id="Movie-emotions">Sentiments</div>
         
     </div>
-  <!--    <div id="container2"></div> -->
+    <div class='key'>
+        <img src='image/key1.png' id="key1" style='width: 630px;height:70px;margin-left:610px;margin-top:-110px;'>
+        <img src='image/key2.png' id="key2" style='width: 630px;height:70px;margin-left:610px;margin-top:-150px;'>
+    </div>
    <section class="canvas" id="canvas"></section>
     
+        <div id='words'>
 
- <!--   <div class='emoall'>
- -->   <!-- <img src="image/emoall.png"  id="key"/> -->
-   <!-- <object type="image/svg+xml" data="image/Love movie.svg"></object>
-   </div> -->
-
+            <div><p class="intro"><span>Sentiment in movie: </span><span id="emotion"></span></p></div>
+            <div><p class="intro"><span>Score: </span><span id="score"></span></p></div>
+            <div><p class="intro">Top five sentimental subtitles: </p></div>
+            <div id="top"></div>
+        </div>
+    
     <div class="custom-tooltip">
         <p class="text"></h3>
+        <p class="sentences"></h3>
        
     </div>
 </div>
